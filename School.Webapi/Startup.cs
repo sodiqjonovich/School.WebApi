@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using School.Webapi.Data;
 using School.Webapi.Extensions;
+using School.Webapi.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,10 @@ namespace School.Webapi
             services.AddDbContext<AppDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DBConnect")));
             services.ConfigureIdentity();
+            services.ConfigureJwt(Configuration);
+            services.ConfigureManagers();
+            services.AddAutoMapper(typeof(MappingConfigure));
+            services.AddAuthentication();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -50,6 +55,8 @@ namespace School.Webapi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

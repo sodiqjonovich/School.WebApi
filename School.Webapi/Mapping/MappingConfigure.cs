@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using School.Webapi.Entities.DTOs;
+using School.Webapi.Entities.Models;
 
 namespace School.Webapi.Mapping
 {
@@ -6,8 +8,7 @@ namespace School.Webapi.Mapping
     {
         public MappingConfigure()
         {
-            //CreateMap<DomainModel, DTOmodel>().ReverseMap();
-
+            CreateMap<User, UserDTO>().ReverseMap();
         }
     }
 }

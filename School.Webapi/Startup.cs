@@ -31,9 +31,12 @@ namespace School.Webapi
         {
             services.AddDbContext<AppDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DBConnect")));
+
             services.ConfigureIdentity();
             services.ConfigureJwt(Configuration);
             services.ConfigureManagers();
+            services.ConfigureRepasitories();
+
             services.AddAutoMapper(typeof(MappingConfigure));
             services.AddAuthentication();
             services.AddControllers();

@@ -9,6 +9,11 @@ namespace School.Webapi.Mapping
         public MappingConfigure()
         {
             CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<Group, GroupDTO>().ReverseMap();
+            CreateMap<Employee, EmployeeDTO>().ReverseMap();
+            CreateMap<New, NewDTO>().ReverseMap();
+            CreateMap<Pupil, PupilDTO>().ReverseMap();
+            CreateMap<Information, InformationDTO>().ReverseMap();
         }
     }
 }

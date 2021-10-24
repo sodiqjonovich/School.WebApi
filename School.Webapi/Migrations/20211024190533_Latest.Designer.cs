@@ -10,8 +10,8 @@ using School.Webapi.Data;
 namespace School.Webapi.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20211021103125_Second")]
-    partial class Second
+    [Migration("20211024190533_Latest")]
+    partial class Latest
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,15 +50,15 @@ namespace School.Webapi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "531d7727-16aa-4303-97c0-28c54b702b82",
-                            ConcurrencyStamp = "2cd7332f-272d-4f7b-a24e-df5c85da5c58",
+                            Id = "45ec2d3c-4879-4b7d-b089-b7cdc2686cc4",
+                            ConcurrencyStamp = "021ad35a-a42f-4110-9e63-8ad579665936",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "87a927a0-847b-47b7-bf77-514af1468bab",
-                            ConcurrencyStamp = "79e19538-8f7a-431b-8018-9385942fe19c",
+                            Id = "9370247f-4d3c-4d64-8a56-c43be8899e85",
+                            ConcurrencyStamp = "60af4ebb-fccc-48cd-aff7-55b579a14ea2",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -166,6 +166,147 @@ namespace School.Webapi.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("School.Webapi.Entities.Models.Employee", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Definition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Firstname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Lastname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Position")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("School.Webapi.Entities.Models.Group", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ClassName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Pupils")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("School.Webapi.Entities.Models.Information", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AdminFullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Facebook")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Instagram")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telegram")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Informations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7a0a4f07-1e79-44a2-0dab-08d996522184"),
+                            PhoneNumber = "+998 9# ### ####"
+                        });
+                });
+
+            modelBuilder.Entity("School.Webapi.Entities.Models.New", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(70)
+                        .HasColumnType("nvarchar(70)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("News");
+                });
+
+            modelBuilder.Entity("School.Webapi.Entities.Models.Pupil", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Definition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Degree")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Firstname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Lastname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pupils");
                 });
 
             modelBuilder.Entity("School.Webapi.Entities.Models.User", b =>

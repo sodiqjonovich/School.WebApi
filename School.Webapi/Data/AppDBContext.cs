@@ -7,6 +7,16 @@ namespace School.Webapi.Data
 {
     public class AppDBContext: IdentityDbContext<User>
     {
+        public DbSet<New> News { get; set; }
+        
+        public DbSet<Group> Groups { get; set; }
+
+        public DbSet<Employee> Employees { get; set; }
+
+        public DbSet<Pupil> Pupils { get; set; }
+
+        public DbSet<Information> Informations { get; set; }
+
         public AppDBContext(DbContextOptions<AppDBContext> options)
             : base(options)
         {
@@ -16,6 +26,7 @@ namespace School.Webapi.Data
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new RoleConfiguration());
+            builder.Seed();
         }
     }
 }

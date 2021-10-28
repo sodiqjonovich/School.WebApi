@@ -50,8 +50,6 @@ namespace School.Webapi.Repasitories.NewRepasitory
         public async Task<New> UpdateAsync(Guid Id, New obj)
         {
             obj.Id = Id;
-            var newObj = dbo.News.Attach(obj);
-            newObj.State = EntityState.Modified;
             await dbo.SaveChangesAsync();
             return obj;
         }

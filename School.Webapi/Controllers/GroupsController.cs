@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using School.Webapi.Entities.DTOs;
 using School.Webapi.Entities.Models;
-using School.Webapi.Repasitories.EmployeeRepasitory;
+using School.Webapi.Repasitories.GroupRepasitory;
 using System;
 using System.Threading.Tasks;
 
@@ -11,23 +11,23 @@ namespace School.Webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeController : ControllerBase
+    public class GroupsController : ControllerBase
     {
-        private readonly IEmployeeRepasitory _employeeRepasitory;
+        private readonly IGroupRepasitory _groupRepasitory;
         private readonly IMapper _mapper;
 
-        public EmployeeController(IEmployeeRepasitory employeeRepasitory,
-            IMapper mapper)
+        public GroupsController(IGroupRepasitory groupRepasitory,
+            IMapper imapper)
         {
-            this._employeeRepasitory = employeeRepasitory;
-            this._mapper = mapper;
+            this._groupRepasitory = groupRepasitory;
+            this._mapper = imapper;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _employeeRepasitory.GetAllAsync());
+            return Ok(await _groupRepasitory.GetAllAsync());
         }
 
         [HttpGet("{id}")]
@@ -35,7 +35,7 @@ namespace School.Webapi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(Guid id)
         {
-            var obj = await _employeeRepasitory.GetAsync(id);
+            var obj = await _groupRepasitory.GetAsync(id);
             if (obj == null) return NotFound();
             else return Ok(obj);
         }
@@ -43,18 +43,17 @@ namespace School.Webapi.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody] 
-            EmployeeDTO employeeDTO)
+        public async Task<IActionResult> Post([FromBody] GroupDTO groupDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Not a valid model");
 
-            if (employeeDTO == null) return BadRequest();
+            if (groupDTO == null) return BadRequest();
 
-            Employee employee = _mapper.Map<Employee>(employeeDTO);
+            var group = _mapper.Map<Group>(groupDTO);
 
             return Created("New is created",
-                await _employeeRepasitory.CreateAsync(employee));
+                await _groupRepasitory.CreateAsync(group));
         }
 
         [HttpPut("{id}")]
@@ -62,16 +61,16 @@ namespace School.Webapi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Put(Guid id, 
-            [FromBody] EmployeeDTO employeeDTO)
+            [FromBody] GroupDTO groupDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Not a valid model");
 
-            if (employeeDTO == null) return BadRequest();
+            if (groupDTO == null) return BadRequest();
 
-            var newObj = _mapper.Map<Employee>(employeeDTO);
+            var group = _mapper.Map<Group>(groupDTO);
 
-            await _employeeRepasitory.UpdateAsync(id, newObj);
+            await _groupRepasitory.UpdateAsync(id, group);
 
             return NoContent();
         }
@@ -81,11 +80,11 @@ namespace School.Webapi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var obj = await _employeeRepasitory.GetAsync(id);
+            var obj = await _groupRepasitory.GetAsync(id);
             if (obj == null) return NotFound();
             else
             {
-                await _employeeRepasitory.DeleteAsync(id);
+                await _groupRepasitory.DeleteAsync(id);
                 return NoContent();
             }
         }

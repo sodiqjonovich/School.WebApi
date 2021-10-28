@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Webapi.Data;
 
 namespace School.Webapi.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211028064232_Third")]
+    partial class Third
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace School.Webapi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "82bddbfe-382c-4f49-bfbe-7265a8f0af4d",
-                            ConcurrencyStamp = "67c1656a-a490-4570-9c15-da74e3c4744d",
+                            Id = "8a6e5aca-ee08-44be-8462-f3e3c7f27b29",
+                            ConcurrencyStamp = "df509c31-bb15-4d6a-be58-47c84391faf7",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "bf4792b6-7c91-4a55-9bd3-9f64e3c17ea3",
-                            ConcurrencyStamp = "a16d55d5-5860-44b6-bcd3-5aabf04d28a3",
+                            Id = "37d4e524-8643-423b-b9ac-49c38a8c2689",
+                            ConcurrencyStamp = "1355c38e-ebe8-46c6-8cea-585ce6b6c10b",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -266,7 +268,7 @@ namespace School.Webapi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageName")
+                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")

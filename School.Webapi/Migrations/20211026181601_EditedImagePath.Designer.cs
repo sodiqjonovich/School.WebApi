@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Webapi.Data;
 
 namespace School.Webapi.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211026181601_EditedImagePath")]
+    partial class EditedImagePath
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace School.Webapi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "82bddbfe-382c-4f49-bfbe-7265a8f0af4d",
-                            ConcurrencyStamp = "67c1656a-a490-4570-9c15-da74e3c4744d",
+                            Id = "1070b118-0397-4ad4-9ae2-7c31e341dcbd",
+                            ConcurrencyStamp = "bfcd2f96-f107-4f70-ae6b-e13a3e95f358",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "bf4792b6-7c91-4a55-9bd3-9f64e3c17ea3",
-                            ConcurrencyStamp = "a16d55d5-5860-44b6-bcd3-5aabf04d28a3",
+                            Id = "4e0b5068-c53f-4cd7-8ea3-000853746e4c",
+                            ConcurrencyStamp = "cd711c5c-dde6-4ed5-b988-81bddb66ecb0",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -179,7 +181,7 @@ namespace School.Webapi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageName")
+                    b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Lastname")
@@ -266,7 +268,7 @@ namespace School.Webapi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageName")
+                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -295,7 +297,7 @@ namespace School.Webapi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageName")
+                    b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Lastname")

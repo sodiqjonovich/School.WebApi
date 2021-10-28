@@ -14,12 +14,12 @@ namespace School.Webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InformationController : ControllerBase
+    public class InformationsController : ControllerBase
     {
         private readonly IInformationRepasitory _informationRepasitory;
         private readonly IMapper _mapper;
 
-        public InformationController(
+        public InformationsController(
             IInformationRepasitory informationRepasitory,
             IMapper imapper)
         {

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace School.Webapi.Entities.Models
+namespace School.Webapi.Entities.DTOs.EmployeeDTOs
 {
-    public abstract class Person:BaseEntity
+    public abstract class EmployeeDTOAbs
     {
         [Required]
         public string Firstname { get; set; }
@@ -10,8 +10,8 @@ namespace School.Webapi.Entities.Models
         [Required]
         public string Lastname { get; set; }
 
-        public string Definition { get; set; }
+        public string PhoneNumber { get; set; }
 
-        public string ImageName { get; set; }
+        public string Position { get; set; }
     }
 }

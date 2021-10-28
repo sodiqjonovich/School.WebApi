@@ -1,19 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace School.Webapi.Entities.Models
+namespace School.Webapi.Entities.DTOs.NewDTOs
 {
-    public class New:BaseEntity
+    public abstract class NewDTOAbs
     {
         [Required]
         [MaxLength(70)]
         public string Title { get; set; }
 
-        [Required]
-        public string Description { get; set; }
-
         public DateTime Date { get; set; }
-
-        public string ImageName { get; set; }
     }
 }

@@ -48,11 +48,18 @@ namespace School.Webapi.Repasitories.PupilRepasitory
             return await dbo.Pupils.FindAsync(Id);
         }
 
+        public async Task<string> GetImageAsync(Guid Id)
+        {
+            using (dbo)
+            {
+                string t = (await dbo.Pupils.FindAsync(Id)).ImageName.ToString();
+                return t;
+            }
+        }
+
         public async Task<Pupil> UpdateAsync(Guid Id, Pupil obj)
         {
             obj.Id = Id;
-            var newObj = dbo.Pupils.Attach(obj);
-            newObj.State = EntityState.Modified;
             await dbo.SaveChangesAsync();
             return obj;
         }

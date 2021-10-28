@@ -4,6 +4,7 @@ using School.Webapi.Repasitories.GroupRepasitory;
 using School.Webapi.Repasitories.InformationRepasitory;
 using School.Webapi.Repasitories.NewRepasitory;
 using School.Webapi.Repasitories.PupilRepasitory;
+using School.Webapi.Services.ImageManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace School.Webapi.Extensions
             services.AddTransient<INewRepasitory, NewRepasitory>();
             services.AddTransient<IPupilRepasitory, PupilRepasitory>();
             services.AddTransient<IInformationRepasitory, InformationRepasitory>();
+            services.AddTransient<IImageManager, ImageManager>();
         }
     }
 }

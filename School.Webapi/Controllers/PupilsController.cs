@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using School.Webapi.Entities.DTOs;
+using School.Webapi.Entities.DTOs.PupilDTOs;
 using School.Webapi.Entities.Models;
 using School.Webapi.Repasitories.PupilRepasitory;
+using School.Webapi.Services.ImageManager;
 using System;
 using System.Threading.Tasks;
 
@@ -11,16 +13,18 @@ namespace School.Webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PupilController : ControllerBase
+    public class PupilsController : ControllerBase
     {
         private readonly IPupilRepasitory _pupilRepasitory;
         private readonly IMapper _mapper;
+        private readonly IImageManager _imageManager;
 
-        public PupilController(IPupilRepasitory pupilRepasitory,
-            IMapper imapper)
+        public PupilsController(IPupilRepasitory pupilRepasitory,
+            IMapper imapper, IImageManager imageManager)
         {
             this._pupilRepasitory = pupilRepasitory;
             this._mapper = imapper;
+            this._imageManager = imageManager;
         }
 
         [HttpGet]
@@ -36,22 +40,42 @@ namespace School.Webapi.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             var obj = await _pupilRepasitory.GetAsync(id);
+
             if (obj == null) return NotFound();
-            else return Ok(obj);
+            else
+            {
+                PupilDTO dto = _mapper.Map<PupilDTO>(obj);
+                dto.ImagePath = _imageManager.GetFullPath(obj.ImageName);
+                return Ok(dto);
+            }
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody] PupilDTO pupilDTO)
+        public async Task<IActionResult> Post([FromForm] 
+            PupilDTOCreated pupilDTOCreated)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Not a valid model");
 
-            if (pupilDTO == null) return BadRequest();
+            var newObj = _mapper.Map<Pupil>(pupilDTOCreated);
 
-            var newObj = _mapper.Map<Pupil>(pupilDTO);
+            if (pupilDTOCreated.ImageFile != null)
+            {
+                if(!_imageManager.CheckIsImage(pupilDTOCreated.ImageFile.FileName))
+                    return BadRequest("The file isn't image file");
 
+                if (!_imageManager.CheckImageSize(pupilDTOCreated.ImageFile))
+                    return BadRequest("Image length is longer than 2MB");
+
+                string downloadedFile = await _imageManager
+                                    .UploadFileAsync(pupilDTOCreated.ImageFile);
+
+                if (downloadedFile == null) return BadRequest("Image can not download");
+                else newObj.ImageName = downloadedFile;
+            }
+            
             return Created("Pupil is created",
                 await _pupilRepasitory.CreateAsync(newObj));
         }
@@ -61,17 +85,32 @@ namespace School.Webapi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Put(Guid id, 
-            [FromBody] PupilDTO pupilDTO)
+            [FromForm] PupilDTOCreated pupilDTOedited)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Not a valid model");
 
-            if (pupilDTO == null) return BadRequest();
+            var pupil = await _pupilRepasitory.GetAsync(id);
 
-            Pupil pupil = _mapper.Map<Pupil>(pupilDTO);
-            
+            if (pupil == null) return NotFound("Id is'nt correct");
+
+            if (pupilDTOedited.ImageFile != null)
+            {
+                if (!_imageManager.CheckIsImage(pupilDTOedited.ImageFile.FileName))
+                    return BadRequest("The file isn't image file");
+
+                if (!_imageManager.CheckImageSize(pupilDTOedited.ImageFile))
+                    return BadRequest("Image length is longer than 2MB");
+
+                if (pupilDTOedited.ImageFile.FileName != pupil.ImageName)
+                    pupil.ImageName = await _imageManager.ChangeFileAsync(
+                        pupil.ImageName, pupilDTOedited.ImageFile);
+            }
+
+            _mapper.Map(pupilDTOedited, pupil);
+
             await _pupilRepasitory.UpdateAsync(id, pupil);
-            
+
             return NoContent();
         }
 
@@ -84,7 +123,9 @@ namespace School.Webapi.Controllers
             if (obj == null) return NotFound();
             else
             {
+                string path = obj.ImageName;
                 await _pupilRepasitory.DeleteAsync(id);
+                _imageManager.DeleteFile(path);
                 return NoContent();
             }
         }

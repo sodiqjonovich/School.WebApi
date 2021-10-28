@@ -50,8 +50,6 @@ namespace School.Webapi.Repasitories.EmployeeRepasitory
         public async Task<Employee> UpdateAsync(Guid Id, Employee obj)
         {
             obj.Id = Id;
-            var newObj = dbo.Employees.Attach(obj);
-            newObj.State = EntityState.Modified;
             await dbo.SaveChangesAsync();
             return obj;
         }

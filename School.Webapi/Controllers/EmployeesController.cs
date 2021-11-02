@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using School.Webapi.Entities.DTOs;
+using School.Webapi.Entities;
 using School.Webapi.Entities.DTOs.EmployeeDTOs;
 using School.Webapi.Entities.Models;
 using School.Webapi.Repasitories.EmployeeRepasitory;
 using School.Webapi.Services.ImageManager;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace School.Webapi.Controllers
@@ -29,9 +30,14 @@ namespace School.Webapi.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery]
+            PaginationParametres paginationParametres)
         {
-            return Ok(await _employeeRepasitory.GetAllAsync());
+            var dtos = _mapper.Map<IEnumerable<EmployeeDTOMain>>(
+                await _employeeRepasitory.GetAllAsync(paginationParametres)
+                );
+
+            return Ok(dtos);
         }
 
         [HttpGet("{id}")]

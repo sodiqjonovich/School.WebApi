@@ -6,7 +6,8 @@ namespace School.Webapi.Extensions
 {
     public static class ServicesExtensions
     {
-        public static void ConfigureManagers(this IServiceCollection services)
+        public static void ConfigureManagers(
+            this IServiceCollection services)
         {
             services.AddTransient<IAuthManager, AuthManager>();
         }

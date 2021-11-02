@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using School.Webapi.Data;
+using School.Webapi.Entities;
 using School.Webapi.Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -38,9 +39,13 @@ namespace School.Webapi.Repasitories.PupilRepasitory
             }
         }
 
-        public async Task<IEnumerable<Pupil>> GetAllAsync()
+        public async Task<IEnumerable<Pupil>> GetAllAsync(
+            PaginationParametres paginationParametres)
         {
-            return await dbo.Pupils.ToListAsync();
+            return await dbo.Pupils
+                .Skip((paginationParametres.PageNumber - 1) * paginationParametres.PageSize)
+                .Take(paginationParametres.PageSize)
+                .ToListAsync();
         }
 
         public async Task<Pupil> GetAsync(Guid Id)

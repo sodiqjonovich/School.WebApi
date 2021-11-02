@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using School.Webapi.Entities;
 using School.Webapi.Entities.DTOs;
 using School.Webapi.Entities.Models;
 using School.Webapi.Repasitories.GroupRepasitory;
@@ -25,9 +26,12 @@ namespace School.Webapi.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(
+            PaginationParametres paginationParametres)
         {
-            return Ok(await _groupRepasitory.GetAllAsync());
+            return Ok(
+                await _groupRepasitory.GetAllAsync(paginationParametres)
+                );
         }
 
         [HttpGet("{id}")]

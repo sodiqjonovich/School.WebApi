@@ -11,7 +11,9 @@ namespace School.Webapi.Extensions
         {
             var builder = services.AddIdentityCore<User>(option => 
                                     option.User.RequireUniqueEmail = true);
-            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), services);
+            builder = new IdentityBuilder(
+                builder.UserType, typeof(IdentityRole), services);
+
             builder.AddEntityFrameworkStores<AppDBContext>().AddDefaultTokenProviders();
         }
     }

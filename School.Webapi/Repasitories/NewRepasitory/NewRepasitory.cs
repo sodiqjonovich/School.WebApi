@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using School.Webapi.Data;
+using School.Webapi.Entities;
 using School.Webapi.Entities.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace School.Webapi.Repasitories.NewRepasitory
@@ -37,9 +39,13 @@ namespace School.Webapi.Repasitories.NewRepasitory
             }
         }
 
-        public async Task<IEnumerable<New>> GetAllAsync()
+        public async Task<IEnumerable<New>> GetAllAsync(
+            PaginationParametres paginationParametres)
         {
-            return await dbo.News.ToListAsync();
+            return await dbo.News
+                .Skip((paginationParametres.PageNumber - 1) * paginationParametres.PageSize)
+                .Take(paginationParametres.PageSize)
+                .ToListAsync();
         }
 
         public async Task<New> GetAsync(Guid Id)

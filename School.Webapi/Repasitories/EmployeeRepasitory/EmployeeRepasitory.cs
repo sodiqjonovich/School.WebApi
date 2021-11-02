@@ -1,9 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using School.Webapi.Data;
+using School.Webapi.Entities;
 using School.Webapi.Entities.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace School.Webapi.Repasitories.EmployeeRepasitory
@@ -37,9 +38,13 @@ namespace School.Webapi.Repasitories.EmployeeRepasitory
             }
         }
 
-        public async Task<IEnumerable<Employee>> GetAllAsync()
+        public async Task<IEnumerable<Employee>> GetAllAsync(
+            PaginationParametres paginationParametres)
         {
-            return await dbo.Employees.ToListAsync();
+            return await dbo.Employees
+                .Skip((paginationParametres.PageNumber - 1) * paginationParametres.PageSize)
+                .Take(paginationParametres.PageSize)
+                .ToListAsync();
         }
 
         public async Task<Employee> GetAsync(Guid Id)

@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,11 +25,14 @@ namespace School.Webapi
         {
             services.AddDbContext<AppDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DBConnect")));
-
+            
+            services.ConfigureRateLimiting();
             services.ConfigureIdentity();
             services.ConfigureJwt(Configuration);
             services.ConfigureManagers();
             services.ConfigureRepasitories();
+            services.AddMemoryCache();
+            services.ConfigureHttpCacheHeaders();
 
             services.AddAutoMapper(typeof(MappingConfigure));
             services.AddAuthentication();
@@ -55,6 +59,12 @@ namespace School.Webapi
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseIpRateLimiting();
+
+            app.UseResponseCaching();
+            
+            app.UseHttpCacheHeaders();
 
             app.UseEndpoints(endpoints =>
             {

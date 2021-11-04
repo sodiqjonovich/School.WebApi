@@ -38,13 +38,12 @@ namespace School.Webapi.Repasitories.GroupRepasitory
             }
         }
 
-        public async Task<IEnumerable<Group>> GetAllAsync(
+        public async Task<PagedList<Group>> GetAllAsync(
             PaginationParametres paginationParametres)
         {
-            return await dbo.Groups
-                .Skip((paginationParametres.PageNumber - 1) * paginationParametres.PageSize)
-                .Take(paginationParametres.PageSize)
-                .ToListAsync();
+            return await PagedList<Group>.ToPagedListAsync(dbo.Groups,
+                    paginationParametres.PageNumber,
+                    paginationParametres.PageSize);
         }
 
         public async Task<Group> GetAsync(Guid Id)

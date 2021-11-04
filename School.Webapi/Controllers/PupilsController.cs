@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using School.Webapi.Entities;
 using School.Webapi.Entities.DTOs.PupilDTOs;
 using School.Webapi.Entities.Models;
 using School.Webapi.Repasitories.PupilRepasitory;
 using School.Webapi.Services.ImageManager;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace School.Webapi.Controllers
@@ -32,9 +34,26 @@ namespace School.Webapi.Controllers
         public async Task<IActionResult> Get(
             PaginationParametres paginationParametres)
         {
-            return Ok(
-                await _pupilRepasitory.GetAllAsync(paginationParametres)
-                );
+            var objects = await _pupilRepasitory.GetAllAsync(paginationParametres);
+
+            var metadata = new
+            {
+                objects.TotalCount,
+                objects.PageSize,
+                objects.CurrentPage,
+                objects.TotalPages,
+                objects.HasNext,
+                objects.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination",
+                JsonConvert.SerializeObject(metadata));
+
+            var dtos = _mapper.Map<IEnumerable<PupilDTOMain>>(
+                    objects);
+
+            return Ok(dtos);
+
         }
 
         [HttpGet("{id}")]

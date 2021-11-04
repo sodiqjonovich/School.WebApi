@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using School.Webapi.Entities;
 using School.Webapi.Entities.DTOs.EmployeeDTOs;
 using School.Webapi.Entities.Models;
@@ -33,9 +34,23 @@ namespace School.Webapi.Controllers
         public async Task<IActionResult> Get([FromQuery]
             PaginationParametres paginationParametres)
         {
+            var objects = await _employeeRepasitory.GetAllAsync(paginationParametres);
+
+            var metadata = new
+            {
+                objects.TotalCount,
+                objects.PageSize,
+                objects.CurrentPage,
+                objects.TotalPages,
+                objects.HasNext,
+                objects.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", 
+                JsonConvert.SerializeObject(metadata));
+
             var dtos = _mapper.Map<IEnumerable<EmployeeDTOMain>>(
-                await _employeeRepasitory.GetAllAsync(paginationParametres)
-                );
+                    objects);
 
             return Ok(dtos);
         }

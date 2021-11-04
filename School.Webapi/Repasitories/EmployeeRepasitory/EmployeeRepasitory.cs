@@ -38,13 +38,12 @@ namespace School.Webapi.Repasitories.EmployeeRepasitory
             }
         }
 
-        public async Task<IEnumerable<Employee>> GetAllAsync(
+        public async Task<PagedList<Employee>> GetAllAsync(
             PaginationParametres paginationParametres)
         {
-            return await dbo.Employees
-                .Skip((paginationParametres.PageNumber - 1) * paginationParametres.PageSize)
-                .Take(paginationParametres.PageSize)
-                .ToListAsync();
+            return await PagedList<Employee>.ToPagedListAsync(dbo.Employees,
+                    paginationParametres.PageNumber,
+                    paginationParametres.PageSize);
         }
 
         public async Task<Employee> GetAsync(Guid Id)

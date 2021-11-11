@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace School.Webapi.Entities.DTOs
+﻿namespace School.Webapi.Entities.DTOs.UserDTOs
 {
     public class UserDTO : LoginDTO
     {

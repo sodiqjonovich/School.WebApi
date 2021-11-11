@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using School.Webapi.Entities.DTOs;
 using School.Webapi.Entities.Models;
-using School.Webapi.Repasitories.EmployeeRepasitory;
 using School.Webapi.Repasitories.InformationRepasitory;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace School.Webapi.Controllers
@@ -35,6 +33,7 @@ namespace School.Webapi.Controllers
             return Ok(information);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

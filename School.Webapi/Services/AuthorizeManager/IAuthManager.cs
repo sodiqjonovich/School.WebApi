@@ -1,4 +1,4 @@
-﻿using School.Webapi.Entities.DTOs;
+﻿using School.Webapi.Entities.DTOs.UserDTOs;
 using System.Threading.Tasks;
 
 namespace School.Webapi.Services.AuthorizeManager

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using School.Webapi.Entities.DTOs;
+using School.Webapi.Entities.DTOs.UserDTOs;
 using School.Webapi.Entities.Models;
 using System;
 using System.Collections.Generic;

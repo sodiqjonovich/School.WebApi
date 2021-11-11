@@ -3,6 +3,7 @@ using School.Webapi.Entities.DTOs;
 using School.Webapi.Entities.DTOs.EmployeeDTOs;
 using School.Webapi.Entities.DTOs.NewDTOs;
 using School.Webapi.Entities.DTOs.PupilDTOs;
+using School.Webapi.Entities.DTOs.UserDTOs;
 using School.Webapi.Entities.Models;
 
 namespace School.Webapi.Mapping
@@ -13,6 +14,7 @@ namespace School.Webapi.Mapping
         {
 
             CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<User, UserDTOMain>().ReverseMap();
             CreateMap<Group, GroupDTO>().ReverseMap();
 
             // Pupil Model Mapping

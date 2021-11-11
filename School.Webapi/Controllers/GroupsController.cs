@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -25,7 +26,8 @@ namespace School.Webapi.Controllers
             this._groupRepasitory = groupRepasitory;
             this._mapper = imapper;
         }
-
+        
+        [Authorize(Roles = "User, Admin")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(
@@ -52,6 +54,7 @@ namespace School.Webapi.Controllers
             return Ok(dtos);
         }
 
+        [Authorize(Roles = "User, Admin")]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -62,6 +65,7 @@ namespace School.Webapi.Controllers
             else return Ok(obj);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -78,6 +82,7 @@ namespace School.Webapi.Controllers
                 await _groupRepasitory.CreateAsync(group));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -97,6 +102,7 @@ namespace School.Webapi.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
